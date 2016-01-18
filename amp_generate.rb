@@ -1,4 +1,5 @@
 module Jekyll
+  # Defines the base class of AMP posts
   class AmpPost < Page
     def initialize(site, base, dir, post)
       @site = site
@@ -12,7 +13,7 @@ module Jekyll
       self.data['canonical_url'] = post.url
     end
   end
-
+  # Generates a new AMP post for each existing post
   class AmpGenerator < Generator
     priority :low
     def generate(site)
