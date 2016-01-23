@@ -10,22 +10,25 @@ Jekyll plugin for creating Accelerated Mobile Page versions of posts. Supports J
 (Add CSS styles to the html template)
 - Generate your site with `jekyll serve`
 
+AMP-Jekyll uses [Nokogiri][nokogiri] gem for HTML parsing and [FastImage][fastimage] for image processing. You can install the gems with
+
+```
+gem install nokogiri
+```
+
+```
+gem install fastimage
+```
+
 ### Setting things up
 
 The AMP standard is somewhat restrictive on allowed HTML elements and requires some extra information on element placing. To make sure that your generated AMP pages are valid by the standard, you can run the AMP version of your post with **#development=1** appended to the URL and check the browser's Javascript console for the validation.
 
-IMPORTANT! The AMP standard forces you to specify the width and height of many elements (most notably images) inline. At the moment the best option is to include images as pure HTML in post markdown and include the dimensions of the images. If the dimensions aren't specified the plugin checks if the dimensions are given as a filter parameter in the amp.html template. If the dimensions are still unspecified, config parameters are used. Make sure to specify the size.
-
 Several HTML elements must be replaced with tags specified in the AMP specs to ensure compatibility with the standard. The `amp_filter.rb` Jekyll filter replaces the tags after converting the markdown to HTML. At the moment only replacing `<img>` tags is supported.
 
+To disable image responsivity, add false to `amp_images` responsive parameter in amp.html. This is enabled by default for header and footer.
 
-### Configuration
-Jekyll config variables can be used to specify the behavior of the plugins. Config variables should be added to the `_config.yml` file in the root of the project. All of the variables described are optional. Pre-defined default values will be used unless the variables are set.
-
-Currently supported variables are
-
-- `amp_image_width`: default width of amp-image elements set if the element has no size set
-- `amp_image_height`: default height
+**IMPORTANT:** The plugin uses FastImage to automatically add image dimension attributes to the `amp-image` elements. Unfortunately there are some problems with local image files. Jekyll generates the images only after the build process which means that there are no images to read. At the moment the best way to deal with this (without hosting the images elsewhere or manually adding the width and height tags) is to use `--skip-initia-build` parameter when serving the site and then building the pages only once the site is running locally. I'm trying to come up with better ways of dealing with this.
 
 ### Page linking
 To make your AMP page discoverable (by search engines etc.) you need to link it to the regular version of the page. Add the following element to your post headers.
@@ -44,3 +47,6 @@ There are several possible solutions to adding the tag to post pages only. One o
 
 ### CSS
 CSS rules for AMP must be included inline in the `<style amp-custom>` tag in the `<head>` element in the HTML. You can write the CSS rules by hand or use jekyll includes. Do note that the AMP specification forbids the use of some CSS selectors and attributes. Because of this, it is not a good idea to include the main stylesheet by default.
+
+[nokogiri]: http://www.nokogiri.org/
+[fastimage]: https://github.com/sdsykes/fastimage
