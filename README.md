@@ -28,9 +28,7 @@ Several HTML elements must be replaced with tags specified in the AMP specs to e
 
 To disable image responsivity, add false to `amp_images` responsive parameter in amp.html. This is enabled by default for header and footer.
 
-**IMPORTANT:** The plugin uses FastImage to automatically add image dimension attributes to the `amp-image` elements. Unfortunately there are some problems with local image files. Jekyll generates the images only after the build process which means that there are no images to read. At the moment the best way to deal with this (without hosting the images elsewhere or manually adding the width and height tags) is to use `--skip-initia-build` parameter when serving the site and then building the pages only once the site is running locally. I'm trying to come up with better ways of dealing with this.
-
-### The AMP folder 
+### The AMP folder
 specify amp folder in `_config.yml` as `ampdir: YOURDIR`
 
 ### Page linking
