@@ -20,7 +20,8 @@ module Jekyll
             src = image['src']
           else
             # FastImage doesn't seem to handle local paths when used with Jekyll
-            src = File.join('http://localhost:4000', image['src'])
+            # so let's just force the path
+            src = File.join(Dir.pwd, image['src'])
           end
           # Jekyll generates static assets after the build process.
           # This causes problems when trying to determine the dimensions of a locally stored image.
