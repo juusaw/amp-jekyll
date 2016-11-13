@@ -22,6 +22,7 @@ module Jekyll
     def generate(site)
       dir = site.config['ampdir'] || 'amp'
       site.posts.docs.each do |post|
+        next if post.data['skip_amp'] == true
         index = AmpPost.new(site, site.source, File.join(dir, post.id), post)
         index.render(site.layouts, site.site_payload)
         index.write(site.dest)
