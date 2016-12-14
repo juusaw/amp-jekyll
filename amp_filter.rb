@@ -39,8 +39,26 @@ module Jekyll
       # Change 'img' elements to 'amp-img', add responsive attribute when needed
       doc.css('img').each do |image|
         image.name = "amp-img"
+
         image['layout'] = "responsive" if responsive
       end
+
+      # Picture elements are not accepted in amp pages, convert them to amp-img
+      #<picture>
+      #   <source srcset="mdn-logo-wide.webp" type="image/webp">
+      #   <source srcset="mdn-logo-wide.png" media="(min-width: 600px)">
+      #   <img src="mdn-logo-narrow.png" alt="MDN">
+      #</picture>
+      # Move amp-img elements inside picture elements outside of it and remove picture elements
+      doc.css('picture').each do |picture|
+        # Get img element from picture
+        amp_img = picture.css('amp-img')
+        picture.add_next_sibling(amp_img) unless amp_img.empty?
+
+        # Remove picture element
+        picture.remove
+      end
+
       # Return the html as plaintext string
       doc.to_s
     end
