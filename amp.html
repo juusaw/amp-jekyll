@@ -1,3 +1,6 @@
+---
+layout: amp
+---
 <!doctype html>
 <html amp lang="en">
   <head>
@@ -18,7 +21,7 @@
 <span>
 {{ page.date }} - {{ page.author }}
 </span>
-{{ page.body | markdownify | amp_images }}
+{{ content | markdownify | amp_images }}
 {% capture footer %}{% include footer.html %}{% endcapture %}
 {{ footer | amp_images: false, 24, 24 }}
 </body>

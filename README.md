@@ -43,5 +43,25 @@ The easiest (though a bit gimmicky) solution is adding the following conditional
 ### CSS
 CSS rules for AMP must be included inline in the `<style amp-custom>` tag in the `<head>` element in the HTML. You can write the CSS rules by hand or use jekyll includes. Do note that the AMP specification forbids the use of some CSS selectors and attributes. Because of this, it is not a good idea to include the main stylesheet by default.
 
+### Skipping Pages
+
+Sometimes there are pages we don't want to be turned into AMP pages, normally this is because they require HTML elements or JavaScript that would make them invalid.
+
+In any post we want to skip simply add;
+
+```
+skip_amp: true
+```
+
+And update your `amphtml` block to look like;
+
+```
+{% if page.path contains '_posts' %}
+  {% unless page.skip_amp %}
+    <link rel="amphtml" href="{{ page.id | prepend: '/YOURDIR' | prepend: site.baseurl | prepend: site.url }}">
+  {% endunless %}
+{% endif %}
+```
+
 [nokogiri]: http://www.nokogiri.org/
 [fastimage]: https://github.com/sdsykes/fastimage

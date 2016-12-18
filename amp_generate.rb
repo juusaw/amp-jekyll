@@ -8,6 +8,7 @@ module Jekyll
       @name = 'index.html'
       self.process(@name)
       self.read_yaml(File.join(base, '_layouts'), 'amp.html')
+      self.content               = post.content
       self.data['body']          = (Liquid::Template.parse post.content).render site.site_payload
       self.data['title']         = post.data['title']
       self.data['date']          = post.data['date']
@@ -22,10 +23,8 @@ module Jekyll
     def generate(site)
       dir = site.config['ampdir'] || 'amp'
       site.posts.docs.each do |post|
-        index = AmpPost.new(site, site.source, File.join(dir, post.id), post)
-        index.render(site.layouts, site.site_payload)
-        index.write(site.dest)
-        site.pages << index
+        next if post.data['skip_amp'] == true
+        site.pages << AmpPost.new(site, site.source, File.join(dir, post.id), post)
       end
     end
   end
