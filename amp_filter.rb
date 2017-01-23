@@ -59,6 +59,27 @@ module Jekyll
         picture.remove
       end
 
+      # Added <img /> tag wrapped with <noscript /> in case js is not enabled
+      # but image will still show up. The element would look like this:
+      # <amp-img ...>
+      #    <noscript>
+      #        <img ... />
+      #    </noscript>
+      # </ampimg ...>
+      # Duplicate amp-img, remove layout attribut, wrap it with noscript, and add
+      # it as amp-img child
+      doc.css('amp-img').each do |amp_img|
+        noscript = Nokogiri::XML::Node.new "noscript", doc
+
+        noscript_img = amp_img.dup
+        noscript_img.remove_attribute('layout')
+        noscript_img.name = 'img'
+
+        noscript.add_child(noscript_img)
+
+        amp_img.add_child(noscript)
+      end
+
       # Return the html as plaintext string
       doc.to_s
     end
