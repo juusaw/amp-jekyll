@@ -10,10 +10,14 @@ module Jekyll
       self.read_yaml(File.join(base, '_layouts'), 'amp.html')
       self.content               = post.content
       self.data['body']          = (Liquid::Template.parse post.content).render site.site_payload
-      self.data['title']         = post.data['title']
-      self.data['date']          = post.data['date']
-      self.data['author']        = post.data['author']
-      self.data['category']      = post.data['category']
+
+      # Merge all data from post so that keys from self.data have higher priority
+      self.data = post.data.merge(self.data)
+
+      # Remove non needed keys from data
+      # Excerpt will cause an error if kept
+      self.data.delete('excerpt')
+
       self.data['canonical_url'] = post.url
     end
   end
