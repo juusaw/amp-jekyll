@@ -1,2 +1,2 @@
-require 'amp_generate'
-require 'amp_filter'
+require 'jekyll/amp_generate'
+require 'jekyll/amp_filter'
