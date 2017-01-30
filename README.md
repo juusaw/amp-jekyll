@@ -2,23 +2,30 @@
 
 Jekyll plugin for creating Accelerated Mobile Page versions of posts. Supports Jekyll version 3.
 
+[![Gem Version](https://img.shields.io/gem/v/amp-jekyll.svg)](https://rubygems.org/gems/amp-jekyll)
+
 [AMP project](https://www.ampproject.org/)
+
 ### Usage
-- Place the Ruby files (`amp_generate.rb` and `amp_filter.rb`) in folder _plugins at the root of the project
+
+#### Using the gem
+- Add gem `amp-jekyll` to your `Gemfile` and run `bundle`
+- Add the gem to your `_config.yml` like this:
+
+```yml
+gems:
+  - amp-jekyll
+```
+
+#### Adding the plugin manually
+- Place the Ruby files in `lib/jekyll` (`amp_generate.rb` and `amp_filter.rb`) in folder _plugins at the root of the project
+
+
+#### Then perform the following
 - Place the layout file (`amp.html`) to the _layouts folder
 - Add `amphtml`-link to post heads (see page linking below)
 (Add CSS styles to the html template)
-- Generate your site with `jekyll serve`
-
-AMP-Jekyll uses [Nokogiri][nokogiri] gem for HTML parsing and [FastImage][fastimage] for image processing. You can install the gems with
-
-```
-gem install nokogiri
-```
-
-```
-gem install fastimage
-```
+- Generate your site with `jekyll build`
 
 ### Setting things up
 
@@ -29,10 +36,10 @@ Several HTML elements must be replaced with tags specified in the AMP specs to e
 To disable image responsivity, add false to `amp_images` responsive parameter in amp.html. This is enabled by default for header and footer.
 
 ### The AMP folder
-specify amp folder in `_config.yml` as `ampdir: YOURDIR`
+Specify amp folder in `_config.yml` as `ampdir: YOURDIR`
 
 ### Page linking
-The easiest (though a bit gimmicky) solution is adding the following conditional expression around the tag.
+The easiest solution is adding the following conditional expression around the tag.
 
 ```
 {% if page.path contains '_posts' %}
@@ -49,7 +56,7 @@ Sometimes there are pages we don't want to be turned into AMP pages, normally th
 
 In any post we want to skip simply add;
 
-```
+```yml
 skip_amp: true
 ```
 
@@ -62,6 +69,3 @@ And update your `amphtml` block to look like;
   {% endunless %}
 {% endif %}
 ```
-
-[nokogiri]: http://www.nokogiri.org/
-[fastimage]: https://github.com/sdsykes/fastimage
