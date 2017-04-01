@@ -27,14 +27,29 @@ module Jekyll
   # Generates a new AMP post for each existing post
   class AmpGenerator < Generator
     priority :low
+
     def generate(site)
       dir = site.config['ampdir'] || 'amp'
-      threads = site.posts.docs.map do |post|
-        next if post.data['skip_amp'] == true
-        Thread.new do
-          site.pages << AmpPost.new(site, site.source, File.join(dir, post.id), post)
+      thread_count = ENV['THREADCOUNT'].to_i || 4
+
+      queue = Queue.new
+      threads = []
+
+      site.posts.docs
+        .reject { |post| post.data['skip_amp'] }
+        .each   { |post| queue << post }
+
+      thread_count.times do
+        threads << Thread.new do
+          until queue.empty?
+            post = queue.pop(true) rescue nil
+            if post
+              site.pages << AmpPost.new(site, site.source, File.join(dir, post.id), post)
+            end
+          end
         end
       end
+
       ThreadsWait.all_waits(*threads)
     end
   end

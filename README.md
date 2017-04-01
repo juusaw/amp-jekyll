@@ -69,3 +69,7 @@ And update your `amphtml` block to look like;
   {% endunless %}
 {% endif %}
 ```
+
+# Build Speed
+
+Pages are processed using several threads to try and minimise build speed. The number of threads can be configured by setting `ENV['THREADCOUNT']`. By default 4 threads are used.
