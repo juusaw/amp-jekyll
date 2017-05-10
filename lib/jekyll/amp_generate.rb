@@ -30,7 +30,7 @@ module Jekyll
 
     def generate(site)
       dir = site.config['ampdir'] || 'amp'
-      thread_count = ENV['THREADCOUNT'].to_i || 4
+      thread_count = (ENV['THREADCOUNT'] || 4).to_i
 
       queue = Queue.new
       threads = []
