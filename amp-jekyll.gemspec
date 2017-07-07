@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 Gem::Specification.new do |spec|
   spec.name          = 'amp-jekyll'
-  spec.version       = '1.0.1'
+  spec.version       = '1.0.2'
   spec.authors       = ['Juuso Mikkonen']
   spec.email         = ['hello@juusomikkonen.com']
   spec.summary       = 'A Jekyll plugin to generate Accelerated Mobile Pages.'
