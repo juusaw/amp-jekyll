@@ -5,6 +5,8 @@ module Jekyll
       @site = site
       @base = base
       @dir = dir
+      # Needed for posts with permalink
+      @url = dir
       @name = 'index.html'
       self.process(@name)
       self.read_yaml(File.join(base, '_layouts'), 'amp.html')
