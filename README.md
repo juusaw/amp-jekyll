@@ -43,7 +43,7 @@ The easiest solution is adding the following conditional expression around the t
 
 ```
 {% if page.path contains '_posts' %}
-  <link rel="amphtml" href="{{ page.id | prepend: '/YOURDIR' | prepend: site.baseurl | prepend: site.url }}">
+  <link rel="amphtml" href="{{ page.id | prepend: '/YOURDIR' | prepend: site.baseurl | prepend: site.url | append: '.html' }}">
 {% endif %}
 ```
 
