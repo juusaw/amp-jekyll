@@ -13,7 +13,7 @@ Jekyll plugin for creating Accelerated Mobile Page versions of posts. Supports J
 - Add the gem to your `_config.yml` like this:
 
 ```yml
-gems:
+plugins:
   - amp-jekyll
 ```
 
