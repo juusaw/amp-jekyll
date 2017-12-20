@@ -1,13 +1,16 @@
 module Jekyll
   # Defines the base class of AMP posts
   class AmpPost < Page
-    def initialize(site, base, dir, post)
+    def initialize(site, base, dir, post, amp_root_dir)
       @site = site
       @base = base
       @dir = dir
       # Needed for posts with permalink
-      @url = dir
-      @name = 'index.html'
+      @url ||= URL.new({
+        :template     => File.join(amp_root_dir, post.url_template),
+        :placeholders => post.url_placeholders
+      }).to_s
+      @name = post.basename
       self.process(@name)
       self.read_yaml(File.join(base, '_layouts'), 'amp.html')
       self.content               = post.content
@@ -33,7 +36,7 @@ module Jekyll
       dir = site.config['ampdir'] || 'amp'
       site.posts.docs.each do |post|
         next if post.data['skip_amp'] == true
-        site.pages << AmpPost.new(site, site.source, File.join(dir, post.id), post)
+        site.pages << AmpPost.new(site, site.source, File.join(dir, post.id), post, dir)
       end
     end
   end
