@@ -16,9 +16,6 @@ module Jekyll
       # Merge all data from post so that keys from self.data have higher priority
       self.data = post.data.merge(self.data)
 
-      # Remove non needed keys from data
-      # Excerpt will cause an error if kept
-      self.data.delete('excerpt')
       # Generating the page fails silently if page has a permalink and it is copied
       # over to the AMP version
       self.data.delete('permalink')
