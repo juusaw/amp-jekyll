@@ -17,6 +17,8 @@ plugins:
   - amp-jekyll
 ```
 
+NOTE: Older Jekyll versions (below 3.6.0) use the key `gems` instead of `plugins`. When building a site with such version, use the old key.
+
 #### Adding the plugin manually
 - Place the Ruby files in `lib/jekyll` (`amp_generate.rb` and `amp_filter.rb`) in folder _plugins at the root of the project
 
