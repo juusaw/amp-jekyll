@@ -2,7 +2,7 @@
 
 > **Important**: This project is no longer actively maintained as I am not using Jekyll (or AMP) that much nowadays. In case you are interested in maintaining the project, I'm happy to provide support.
 
-Jekyll plugin for creating Accelerated Mobile Page versions of posts. Supports Jekyll version 3.
+Jekyll plugin for creating Accelerated Mobile Page versions of posts. Supports Jekyll version 3 and 4.
 
 [![Gem Version](https://img.shields.io/gem/v/amp-jekyll.svg)](https://rubygems.org/gems/amp-jekyll)
 
