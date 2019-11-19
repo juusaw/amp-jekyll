@@ -1,3 +1,6 @@
+require 'thread'
+require 'thwait'
+
 module Jekyll
   # Defines the base class of AMP posts
   class AmpPost < Jekyll::Page
@@ -29,12 +32,30 @@ module Jekyll
   # Generates a new AMP post for each existing post
   class AmpGenerator < Generator
     priority :low
+
     def generate(site)
       dir = site.config['ampdir'] || 'amp'
-      site.posts.docs.each do |post|
-        next if post.data['skip_amp'] == true
-        site.pages << AmpPost.new(site, site.source, File.join(dir, post.id), post)
+      thread_count = (ENV['THREADCOUNT'] || 4).to_i
+
+      queue = Queue.new
+      threads = []
+
+      site.posts.docs
+        .reject { |post| post.data['skip_amp'] }
+        .each   { |post| queue << post }
+
+      thread_count.times do
+        threads << Thread.new do
+          until queue.empty?
+            post = queue.pop(true) rescue nil
+            if post
+              site.pages << AmpPost.new(site, site.source, File.join(dir, post.id), post)
+            end
+          end
+        end
       end
+
+      ThreadsWait.all_waits(*threads)
     end
   end
 end
